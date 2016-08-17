@@ -112,7 +112,7 @@ migrate_to_run()
  		rm $src
  	elif [ ! -L $src -a -d $src ]; then
  		ebegin "Migrating $src to $dst"
- 		cp -a $src/* $dst/
+ 		cp -a $src/* $dst/ 2>/dev/null
  		rm -rf $src
  		eend $?
  	fi

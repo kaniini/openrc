@@ -22,7 +22,6 @@ start()
 {
 	ttyn=${rc_tty_number:-${RC_TTY_NUMBER:-12}}
 	consolefont=${consolefont:-${CONSOLEFONT}}
-	unicodemap=${unicodemap:-${UNICODEMAP}}
 	consoletranslation=${consoletranslation:-${CONSOLETRANSLATION}}
 
 	if [ -z "$consolefont" ]; then
@@ -43,9 +42,6 @@ start()
 	if [ -n "$consoletranslation" ]; then
 		param="$param -m $consoletranslation"
 	fi
-	if [ -n "${unicodemap}" ]; then
-		param="$param -u $unicodemap"
-	fi
 
 	# Set the console font
 	ebegin "Setting console font [$consolefont]"
@@ -63,7 +59,8 @@ start()
 	# Store the font so we can use it ASAP on boot
 	if [ $retval -eq 0 ] && checkpath -W "$RC_LIBEXECDIR"; then
 		mkdir -p "$RC_LIBEXECDIR"/console
-		setfont -O "$RC_LIBEXECDIR"/console/font
+		zcat "/usr/share/consolefonts/$consolefont" \
+			> "$RC_LIBEXECDIR"/console/font
 	fi
 
 	return $retval

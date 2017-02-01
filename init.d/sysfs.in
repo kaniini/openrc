@@ -111,7 +111,7 @@ mount_misc()
 			! mountinfo -q /sys/firmware/efi/efivars; then
 			if grep -qs efivarfs /proc/filesystems; then
 				ebegin "Mounting efivarfs filesystem"
-				mount -n -t efivarfs -o ${sysfs_opts} \
+				mount -n -t efivarfs -o ro,${sysfs_opts} \
 					efivarfs /sys/firmware/efi/efivars
 				eend $?
 			fi
